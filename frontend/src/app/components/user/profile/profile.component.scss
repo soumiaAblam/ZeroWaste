@@ -1,0 +1,17 @@
+:host {
+  display: block;
+}
+
+.profile-card {
+  display: grid;
+  gap: 1rem;
+  max-width: 760px;
+}
+
+.success-banner {
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+  font-weight: 800;
+}

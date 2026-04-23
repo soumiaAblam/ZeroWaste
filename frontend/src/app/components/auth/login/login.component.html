@@ -1,0 +1,27 @@
+<section class="auth-page">
+  <article class="auth-card">
+    <p class="eyebrow">ZeroWaste</p>
+    <h1>Iniciar sesion</h1>
+
+    <form class="credentials" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <label class="credentials-field">
+        <span>Nombre de usuario</span>
+        <input type="text" formControlName="username" placeholder="Tu usuario" />
+      </label>
+
+      <label class="credentials-field">
+        <span>Contrasena</span>
+        <input type="password" formControlName="password" placeholder="Tu contrasena" />
+      </label>
+
+      <p *ngIf="errorMessage" class="error-banner">{{ errorMessage }}</p>
+
+      <div class="actions">
+        <button class="primary-button" type="submit" [disabled]="submitting">
+          {{ submitting ? 'Entrando...' : 'Entrar' }}
+        </button>
+        <a class="ghost-button" routerLink="/register">Crear cuenta</a>
+      </div>
+    </form>
+  </article>
+</section>

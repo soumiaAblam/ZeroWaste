@@ -1,0 +1,120 @@
+:host {
+  display: grid;
+  gap: 1rem;
+}
+
+.statistics-header {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.statistics-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.25rem;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.statistics-controls button {
+  min-height: 38px;
+  padding: 0.45rem 0.7rem;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-muted);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.statistics-controls button.is-active {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.statistics-toolbar {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(150px, 1fr)) repeat(2, minmax(150px, auto));
+  gap: 0.9rem;
+  align-items: end;
+  box-shadow: none;
+}
+
+.statistics-toolbar label {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.statistics-toolbar label span,
+.statistics-toolbar article span {
+  color: var(--color-muted);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.statistics-toolbar article {
+  padding-left: 0.85rem;
+  border-left: 2px solid var(--color-primary-border);
+}
+
+.statistics-toolbar article strong {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.statistics-toolbar article.is-money {
+  border-color: var(--color-danger-border);
+}
+
+.statistics-toolbar article.is-money strong {
+  color: var(--color-danger);
+}
+
+.chart-card {
+  display: grid;
+  gap: 1rem;
+  box-shadow: none;
+}
+
+.chart-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+
+.chart-head h2 {
+  margin: 0;
+}
+
+.chart-hint {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.chart-frame {
+  height: min(420px, 42vh);
+  min-height: 280px;
+}
+
+@media (max-width: 900px) {
+  .statistics-toolbar {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .statistics-toolbar,
+  .chart-head {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

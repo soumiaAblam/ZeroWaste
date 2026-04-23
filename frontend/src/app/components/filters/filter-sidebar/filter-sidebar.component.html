@@ -1,0 +1,70 @@
+<section class="filter-sidebar">
+  <header class="filter-sidebar-head">
+    <p class="page-kicker">Filtros</p>
+    <h2>Buscar</h2>
+  </header>
+
+  <aside class="filter-panel" aria-label="Filtros de contenido">
+    <label class="search-field">
+      <span>Nombre o codigo de barras</span>
+      <input
+        type="search"
+        inputmode="search"
+        autocomplete="off"
+        placeholder="Ej. leche, 841..."
+        [value]="filterService.searchTerm()"
+        (input)="updateSearchTerm($event)"
+      />
+    </label>
+
+    <details class="filter-group" open>
+      <summary>Categorias</summary>
+      <div *ngIf="filterService.availableCategories().length; else noCategories" class="checkbox-stack">
+        <label *ngFor="let category of filterService.availableCategories()" class="checkbox-row">
+          <input
+            type="checkbox"
+            [checked]="filterService.isCategorySelected(category)"
+            (change)="filterService.toggleCategory(category)"
+          />
+          <span>{{ category }}</span>
+        </label>
+      </div>
+    </details>
+
+    <details class="filter-group" open>
+      <summary>Consumo</summary>
+      <div class="checkbox-stack">
+        <label *ngFor="let option of consumedOptions" class="checkbox-row">
+          <input
+            type="checkbox"
+            [checked]="filterService.isConsumedSelected(option.value)"
+            (change)="filterService.toggleConsumed(option.value)"
+          />
+          <span>{{ option.label }}</span>
+        </label>
+      </div>
+    </details>
+
+    <details class="filter-group" open>
+      <summary>Caducidad</summary>
+      <div class="checkbox-stack">
+        <label *ngFor="let option of expiryOptions" class="checkbox-row">
+          <input
+            type="checkbox"
+            [checked]="filterService.isExpirySelected(option.value)"
+            (change)="filterService.toggleExpiry(option.value)"
+          />
+          <span>{{ option.label }}</span>
+        </label>
+      </div>
+    </details>
+
+    <button class="clear-button" type="button" [disabled]="!filterService.hasActiveFilters()" (click)="filterService.clearFilters()">
+      Limpiar filtros
+    </button>
+  </aside>
+</section>
+
+<ng-template #noCategories>
+  <p class="filter-empty">No hay categorias disponibles en esta vista.</p>
+</ng-template>

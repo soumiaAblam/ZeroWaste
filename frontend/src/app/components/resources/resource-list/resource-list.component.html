@@ -1,0 +1,86 @@
+<ng-container *ngIf="config; else notFound">
+  <section class="section-header browse-header">
+    <div class="page-head">
+      <div>
+        <h1>{{ config.title }}</h1>
+        <p class="page-copy">{{ resourceIntroCopy() }}</p>
+      </div>
+      <a class="primary-button" [routerLink]="['/', config.key, 'new']">Crear {{ config.singular }}</a>
+    </div>
+  </section>
+
+  <div class="section-scroll">
+    <section *ngIf="errorMessage" class="page-card error-card">
+      {{ errorMessage }}
+    </section>
+
+    <app-loading-state
+      *ngIf="loading; else loadedRows"
+      [label]="'Cargando ' + config.title.toLowerCase()"
+      detail="Cargando datos."
+    />
+
+    <ng-template #loadedRows>
+      <ng-container *ngIf="isInventoryView(); else productsView">
+        <section *ngIf="filteredInventoryRows().length; else emptyState" class="page-card product-gallery">
+          <div class="catalog-grid">
+            <app-inventory-card
+              *ngFor="let row of filteredInventoryRows()"
+              [item]="row"
+              [showDelete]="true"
+              [saving]="isToggleSaving(row)"
+              (toggleConsumed)="toggleConsumed($event)"
+              (deleteRequested)="deleteInventoryRow($event)"
+            />
+          </div>
+        </section>
+      </ng-container>
+
+      <ng-template #productsView>
+        <section *ngIf="filteredProductRows().length; else emptyState" class="page-card product-gallery">
+          <div class="catalog-grid">
+            <article *ngFor="let row of filteredProductRows()" class="food-card food-card--catalog">
+              <div class="food-card-media">
+                <ng-container *ngIf="resolveImageUrl(row.imagen_url) as imageUrl; else productPlaceholder">
+                  <img [src]="imageUrl" [alt]="row.nombre" />
+                </ng-container>
+                <ng-template #productPlaceholder>
+                  <div class="food-card-placeholder">
+                    <mat-icon>shopping_basket</mat-icon>
+                    <span>Sin imagen</span>
+                  </div>
+                </ng-template>
+              </div>
+
+              <div class="food-card-body">
+                <p class="food-card-eyebrow">{{ row.categoria || 'Sin categoria' }}</p>
+                <h3>{{ row.nombre }}</h3>
+                <p class="food-card-meta">{{ truncateText(row.descripcion) }}</p>
+                <p class="food-card-price">{{ formatCurrency(row.precio) }}</p>
+                <p class="food-card-date">{{ row.codigo_barras || 'Sin codigo de barras' }}</p>
+
+                <div class="food-card-actions">
+                  <a class="inline-link" [routerLink]="['/', config.key, row[config.idField]]">Ver</a>
+                  <a class="inline-link" [routerLink]="['/', config.key, row[config.idField], 'edit']">Editar</a>
+                  <button class="inline-link danger-link" type="button" (click)="deleteRow(row)">Eliminar</button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </ng-template>
+    </ng-template>
+
+    <ng-template #emptyState>
+      <section class="page-card">
+        <p class="empty-copy">No hay registros para mostrar.</p>
+      </section>
+    </ng-template>
+  </div>
+</ng-container>
+
+<ng-template #notFound>
+  <section class="page-card error-card">
+    No se pudo abrir esta seccion.
+  </section>
+</ng-template>

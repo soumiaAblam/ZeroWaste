@@ -1,0 +1,69 @@
+<section class="section-header recipe-header">
+  <div class="page-head">
+    <div>
+      <h1>Recetas</h1>
+      <p class="page-copy">
+        Selecciona alimentos que caducan pronto para pensar una receta.
+      </p>
+    </div>
+
+    <button
+      class="recipe-button"
+      type="button"
+      [disabled]="selectedCount() === 0"
+      title="Pendiente de conectar"
+    >
+      Generar receta con SuperCook
+      <span>{{ selectedCount() }} seleccionados</span>
+    </button>
+  </div>
+</section>
+
+<div class="section-scroll">
+  <section *ngIf="errorMessage" class="page-card error-card">
+    {{ errorMessage }}
+  </section>
+
+  <section class="page-card recipe-board">
+    <div class="recipe-board-head">
+      <p class="page-kicker">Ingredientes</p>
+      <h2>Productos seleccionables</h2>
+    </div>
+
+    <app-loading-state
+      *ngIf="loading; else recipeContent"
+      label="Cargando productos"
+      detail="Buscando alimentos proximos a caducar."
+      [compact]="true"
+    />
+
+    <ng-template #recipeContent>
+    <div *ngIf="urgentProducts.length; else emptyRecipes" class="recipe-card-grid">
+      <label
+        *ngFor="let item of urgentProducts"
+        class="recipe-card"
+        [class.is-danger]="resolveTone(item) === 'danger'"
+        [class.is-selected]="isSelected(item)"
+      >
+        <input type="checkbox" [checked]="isSelected(item)" (change)="toggleSelection(item)" />
+
+        <span class="recipe-check" aria-hidden="true">
+          <mat-icon>{{ isSelected(item) ? 'check' : 'add' }}</mat-icon>
+        </span>
+
+        <span class="recipe-card-icon" aria-hidden="true">
+          <mat-icon>shopping_basket</mat-icon>
+        </span>
+
+        <strong>{{ item.producto_nombre }}</strong>
+        <small>{{ item.producto_categoria || 'Sin categoria' }}</small>
+        <em>{{ formatRemainingDays(item.dias_restantes) }}</em>
+      </label>
+    </div>
+    </ng-template>
+  </section>
+
+  <ng-template #emptyRecipes>
+    <p class="empty-copy">No hay productos urgentes para recetas.</p>
+  </ng-template>
+</div>

@@ -1,0 +1,69 @@
+<section class="section-header shopping-header">
+  <h1>Lista de compra</h1>
+  <p class="page-copy">
+    Productos sugeridos para la proxima compra.
+  </p>
+</section>
+
+<div class="section-scroll">
+  <section *ngIf="errorMessage" class="page-card error-card">
+    {{ errorMessage }}
+  </section>
+
+  <section class="page-card shopping-board">
+    <div class="shopping-board-head">
+      <div>
+        <p class="page-kicker">Lista</p>
+        <h2>Productos sugeridos</h2>
+      </div>
+      <button class="ghost-button" type="button" (click)="loadSuggestions()" [disabled]="loading">
+        {{ loading ? 'Actualizando...' : 'Actualizar' }}
+      </button>
+    </div>
+
+    <app-loading-state
+      *ngIf="loading; else shoppingContent"
+      label="Cargando lista de compra"
+      detail="Cargando sugerencias."
+      [compact]="true"
+    />
+
+    <ng-template #shoppingContent>
+    <div *ngIf="filteredSuggestions().length; else emptyShoppingList" class="shopping-grid">
+      <article *ngFor="let suggestion of filteredSuggestions()" class="shopping-card">
+        <div class="shopping-card-media">
+          <ng-container *ngIf="resolveImageUrl(suggestion.producto_imagen_url) as imageUrl; else suggestionPlaceholder">
+            <img [src]="imageUrl" [alt]="suggestion.producto_nombre" />
+          </ng-container>
+          <ng-template #suggestionPlaceholder>
+            <div class="shopping-card-placeholder">
+              <mat-icon>shopping_basket</mat-icon>
+              <span>Sin imagen</span>
+            </div>
+          </ng-template>
+          <span class="shopping-card-count">{{ formatCompactQuantity(suggestion.cantidad) }}</span>
+        </div>
+
+        <div class="shopping-card-body">
+          <p class="shopping-card-eyebrow">{{ suggestion.producto_categoria || 'Sin categoria' }}</p>
+          <h3>{{ suggestion.producto_nombre }}</h3>
+          <p class="shopping-card-meta">{{ suggestion.producto_codigo_barras || 'Sin codigo de barras' }}</p>
+          <span
+            class="reason-pill"
+            [class.is-consumed]="reasonTone(suggestion.sugerencia_motivos) === 'consumed'"
+            [class.is-expired]="reasonTone(suggestion.sugerencia_motivos) === 'expired'"
+          >
+            {{ formatReasons(suggestion.sugerencia_motivos) }}
+          </span>
+        </div>
+      </article>
+    </div>
+    </ng-template>
+  </section>
+
+  <ng-template #emptyShoppingList>
+    <p class="empty-copy">
+      No hay sugerencias de compra ahora mismo.
+    </p>
+  </ng-template>
+</div>

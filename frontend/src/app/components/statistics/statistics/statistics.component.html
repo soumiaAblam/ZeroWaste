@@ -1,0 +1,70 @@
+<section class="section-header statistics-header">
+  <div class="page-head">
+    <div>
+      <h1>Estadisticas</h1>
+      <p class="page-copy">Resumen de productos caducados y dinero perdido.</p>
+    </div>
+
+    <div class="statistics-controls" aria-label="Filtros de estadisticas">
+      <button type="button" [class.is-active]="mode === 'year'" (click)="setMode('year')">Meses</button>
+      <button type="button" [class.is-active]="mode === 'years'" (click)="setMode('years')">Años</button>
+      <button type="button" [class.is-active]="mode === 'month'" (click)="setMode('month')">Mes elegido</button>
+    </div>
+  </div>
+</section>
+
+<div class="section-scroll">
+  <section *ngIf="errorMessage" class="page-card error-card">
+    {{ errorMessage }}
+  </section>
+
+  <app-loading-state
+    *ngIf="loading; else statisticsContent"
+    label="Cargando estadisticas"
+    detail="Calculando datos."
+  />
+
+  <ng-template #statisticsContent>
+    <section class="statistics-toolbar page-card">
+      <label>
+        <span>Año</span>
+        <select [value]="selectedYear" (change)="updateSelectedYear($event)">
+          <option *ngFor="let year of availableYears()" [value]="year">{{ year }}</option>
+        </select>
+      </label>
+
+      <label>
+        <span>Mes</span>
+        <select [value]="selectedMonth" (change)="updateSelectedMonth($event)">
+          <option *ngFor="let month of months; let index = index" [value]="index">{{ month }}</option>
+        </select>
+      </label>
+
+      <article>
+        <span>Productos del año</span>
+        <strong>{{ yearSummary().count }}</strong>
+      </article>
+
+      <article class="is-money">
+        <span>Dinero del año</span>
+        <strong>{{ formatMoney(yearSummary().money) }}</strong>
+      </article>
+    </section>
+
+    <section class="page-card chart-card">
+      <div class="chart-head">
+        <div>
+          <p class="page-kicker">Grafico</p>
+          <h2>
+            {{ mode === 'years' ? 'Comparativa por años' : mode === 'month' ? selectedMonthLabel() : 'Meses de ' + selectedYear }}
+          </h2>
+        </div>
+        <p *ngIf="mode === 'year'" class="chart-hint">Pulsa un mes para verlo.</p>
+      </div>
+
+      <div class="chart-frame">
+        <canvas #wasteChart></canvas>
+      </div>
+    </section>
+  </ng-template>
+</div>

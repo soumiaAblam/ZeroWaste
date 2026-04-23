@@ -1,0 +1,54 @@
+<section class="section-header waste-header">
+  <div class="waste-heading">
+    <div>
+      <h1>Desperdicio</h1>
+      <p class="page-copy">
+        Productos caducados que no se marcaron como consumidos.
+      </p>
+    </div>
+
+    <div class="waste-summary" aria-label="Resumen de desperdicio">
+      <article class="waste-summary-item">
+        <span>Productos</span>
+        <strong>{{ filteredExpiredCount() }}</strong>
+      </article>
+      <article class="waste-summary-item is-loss">
+        <span>Dinero perdido</span>
+        <strong>{{ filteredLostMoney() }}</strong>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="section-scroll">
+  <section *ngIf="errorMessage" class="page-card error-card">
+    {{ errorMessage }}
+  </section>
+
+  <app-loading-state
+    *ngIf="loading; else wasteContent"
+    label="Cargando desperdicio"
+    detail="Cargando productos caducados."
+  />
+
+  <ng-template #wasteContent>
+  <section *ngIf="filteredExpiredItems().length; else emptyWaste" class="page-card waste-board">
+    <div class="waste-grid">
+      <app-inventory-card
+        *ngFor="let item of filteredExpiredItems()"
+        [item]="item"
+        [showActions]="false"
+        [compactExpired]="true"
+        [saving]="isToggleSaving(item)"
+        (toggleConsumed)="toggleConsumed($event)"
+      />
+    </div>
+  </section>
+  </ng-template>
+
+  <ng-template #emptyWaste>
+    <section class="page-card">
+      <p class="empty-copy">No hay productos caducados que mostrar.</p>
+    </section>
+  </ng-template>
+</div>

@@ -1,0 +1,43 @@
+<section class="section-header profile-header">
+  <h1>Cuenta</h1>
+  <p class="page-copy">
+    Edita los datos de tu cuenta.
+  </p>
+</section>
+
+<div class="section-scroll">
+  <section class="page-card profile-card">
+    <section *ngIf="successMessage" class="success-banner">
+      {{ successMessage }}
+    </section>
+
+    <section *ngIf="errorMessage" class="error-banner">
+      {{ errorMessage }}
+    </section>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form-grid">
+      <label class="field" [class.is-invalid]="hasControlError('nombre_usuario')">
+        <span>Nombre de usuario</span>
+        <input type="text" formControlName="nombre_usuario" />
+        <small *ngIf="hasControlError('nombre_usuario')" class="field-error">El nombre es obligatorio.</small>
+      </label>
+
+      <label class="field" [class.is-invalid]="hasControlError('email')">
+        <span>Email</span>
+        <input type="email" formControlName="email" />
+        <small *ngIf="hasControlError('email')" class="field-error">Escribe un email valido.</small>
+      </label>
+
+      <label class="field">
+        <span>Nueva contrasena</span>
+        <input type="password" formControlName="password" placeholder="Dejar vacio para mantener la actual" />
+      </label>
+
+      <div class="action-row">
+        <button class="primary-button" type="submit" [disabled]="submitting">
+          {{ submitting ? 'Guardando...' : 'Guardar cambios' }}
+        </button>
+      </div>
+    </form>
+  </section>
+</div>

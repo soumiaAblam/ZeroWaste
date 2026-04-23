@@ -1,0 +1,54 @@
+:host {
+  display: grid;
+  gap: 1rem;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+.dashboard-board {
+  overflow: hidden;
+}
+
+.dashboard-board {
+  display: grid;
+  gap: 1rem;
+  box-shadow: none;
+}
+
+.dashboard-board-head {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.dashboard-board-head h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.alert-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(172px, 188px));
+  justify-content: start;
+  gap: 1rem;
+}
+
+app-inventory-card {
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .alert-card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(164px, 180px));
+  }
+}
+
+@media (max-width: 700px) {
+  .dashboard-board-head {
+    gap: 0.4rem;
+  }
+}

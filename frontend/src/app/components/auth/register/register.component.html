@@ -1,0 +1,61 @@
+<section class="auth-page">
+  <article class="auth-card">
+    <p class="eyebrow">Cuenta nueva</p>
+    <h1>Crear cuenta</h1>
+
+    <form class="registration" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <label class="field registration-field" [class.is-invalid]="hasControlError('username')">
+        <span>Nombre de usuario</span>
+        <input type="text" formControlName="username" placeholder="Tu usuario" />
+        <small *ngIf="hasControlError('username', 'required')" class="field-error">
+          El nombre de usuario es obligatorio.
+        </small>
+      </label>
+
+      <label class="field registration-field" [class.is-invalid]="hasControlError('email')">
+        <span>Correo electronico</span>
+        <input type="email" formControlName="email" placeholder="tu@correo.com" />
+        <small *ngIf="hasControlError('email', 'required')" class="field-error">
+          El correo electronico es obligatorio.
+        </small>
+        <small *ngIf="hasControlError('email', 'email')" class="field-error">
+          Escribe un correo con formato valido.
+        </small>
+      </label>
+
+      <label class="field registration-field" [class.is-invalid]="hasControlError('password')">
+        <span>Contrasena</span>
+        <input type="password" formControlName="password" placeholder="Minimo 8 caracteres" />
+        <small *ngIf="hasControlError('password', 'required')" class="field-error">
+          La contrasena es obligatoria.
+        </small>
+        <small *ngIf="hasControlError('password', 'minlength')" class="field-error">
+          La contrasena debe tener al menos 8 caracteres.
+        </small>
+      </label>
+
+      <label class="field registration-field" [class.is-invalid]="hasControlError('password_confirm') || hasPasswordMismatch()">
+        <span>Confirmar contrasena</span>
+        <input type="password" formControlName="password_confirm" placeholder="Repite la contrasena" />
+        <small *ngIf="hasControlError('password_confirm', 'required')" class="field-error">
+          Debes confirmar la contrasena.
+        </small>
+        <small *ngIf="hasControlError('password_confirm', 'minlength')" class="field-error">
+          La confirmacion tambien debe tener al menos 8 caracteres.
+        </small>
+        <small *ngIf="hasPasswordMismatch()" class="field-error">
+          Las contrasenas no coinciden.
+        </small>
+      </label>
+
+      <p *ngIf="errorMessage" class="error-banner">{{ errorMessage }}</p>
+
+      <div class="actions">
+        <button class="primary-button" type="submit" [disabled]="submitting">
+          {{ submitting ? 'Creando cuenta...' : 'Registrarme' }}
+        </button>
+        <a class="ghost-button" routerLink="/login">Ya tengo cuenta</a>
+      </div>
+    </form>
+  </article>
+</section>

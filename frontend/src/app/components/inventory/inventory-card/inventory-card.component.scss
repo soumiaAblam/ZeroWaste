@@ -1,0 +1,207 @@
+.inventory-card {
+  display: grid;
+  gap: 0.9rem;
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: var(--radius-lg);
+  border: 0;
+  background: var(--color-surface);
+  box-shadow: none;
+}
+
+.inventory-card.is-danger {
+  background: #fff8f5;
+}
+
+.inventory-card.is-warning {
+  background: #fffaf0;
+}
+
+.inventory-card.is-consumed {
+  background: #f1f5f9;
+}
+
+.inventory-card.is-expired {
+  background: #f1f3f5;
+  color: #4b5563;
+}
+
+.inventory-card.is-compact-expired {
+  gap: 0.75rem;
+}
+
+.inventory-card-media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  border: 0;
+  background: #edf2f7;
+  aspect-ratio: 1 / 1;
+}
+
+.inventory-card-media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.inventory-card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0.45rem;
+  color: var(--color-primary-dark);
+  text-align: center;
+  background: #eef2f5;
+}
+
+.inventory-card-placeholder mat-icon {
+  width: 40px;
+  height: 40px;
+  font-size: 40px;
+}
+
+.inventory-card-placeholder span {
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.inventory-card-count {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  min-width: 2.1rem;
+  padding: 0.35rem 0.45rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.96);
+  border: 0;
+  color: var(--color-text);
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 800;
+  box-shadow: none;
+}
+
+.inventory-card-body {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.inventory-card-eyebrow {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.inventory-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.inventory-card-meta,
+.inventory-card-brand,
+.inventory-card-date {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.92rem;
+}
+
+.inventory-card-brand {
+  color: var(--color-primary-dark);
+  font-weight: 800;
+}
+
+.inventory-card-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.55rem;
+  color: var(--color-muted);
+  font-size: 0.88rem;
+}
+
+.inventory-card-expired-summary {
+  width: fit-content;
+  margin: 0;
+  padding: 0.38rem 0.62rem;
+  border-radius: var(--radius-sm);
+  background: #d8dde3;
+  color: #3f4752;
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-sm);
+  border: 0;
+  background: rgba(77, 145, 46, 0.14);
+  color: var(--color-primary-dark);
+  font-size: 0.8rem;
+  font-weight: 800;
+  box-shadow: none;
+}
+
+.status-pill.is-danger {
+  background: var(--color-danger-surface);
+  color: var(--color-danger-text);
+}
+
+.status-pill.is-warning {
+  background: var(--color-warning-surface);
+  color: var(--color-warning-text);
+}
+
+.status-pill.is-expired {
+  background: #d8dde3;
+  color: #4b5563;
+}
+
+.consumed-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.55rem;
+  min-height: 38px;
+  padding: 0.45rem 0.7rem;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: #eef2f7;
+  color: var(--color-muted);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.consumed-toggle:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.consumed-toggle.is-consumed {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+}
+
+.toggle-dot {
+  width: 0.78rem;
+  height: 0.78rem;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.inventory-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  padding-top: 0.7rem;
+}

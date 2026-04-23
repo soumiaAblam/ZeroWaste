@@ -1,0 +1,31 @@
+:host {
+  display: grid;
+  gap: 1rem;
+}
+
+.about-article {
+  display: grid;
+  gap: 1.2rem;
+  max-width: 820px;
+}
+
+.about-section {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.about-section + .about-section {
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.about-section h2 {
+  margin: 0;
+  color: var(--color-primary-dark);
+}
+
+.about-section p {
+  margin: 0;
+  color: var(--color-muted);
+  line-height: 1.6;
+}

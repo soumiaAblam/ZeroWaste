@@ -1,0 +1,108 @@
+<ng-container *ngIf="config; else notFound">
+  <section class="section-header">
+    <div class="page-head">
+      <div>
+        <p class="page-kicker">{{ isEdit ? 'Editar' : 'Crear' }}</p>
+        <h1>{{ config.title }}</h1>
+        <p class="page-copy">
+          {{ isEdit ? 'Modifica los datos del registro.' : 'Rellena los datos del registro.' }}
+        </p>
+      </div>
+      <a class="ghost-button" [routerLink]="['/', config.key]">Volver</a>
+    </div>
+  </section>
+
+  <div class="section-scroll">
+    <section *ngIf="errorMessage" class="page-card error-card">
+      {{ errorMessage }}
+    </section>
+
+    <app-loading-state
+      *ngIf="loading; else formContent"
+      [label]="isEdit ? 'Cargando formulario' : 'Preparando formulario'"
+      detail="Cargando opciones."
+    />
+
+    <ng-template #formContent>
+    <section class="page-card">
+      <form [formGroup]="form" (ngSubmit)="submit()" class="form-grid">
+        <section *ngIf="isInventoryForm()" class="scanner-panel scanner-panel--compact">
+          <div>
+            <h2>Escaneo rapido</h2>
+            <p class="page-copy">El escaneo directo se anadira en una mejora futura.</p>
+          </div>
+          <button class="ghost-button" type="button" disabled>
+            Escanear
+          </button>
+        </section>
+
+        <ng-container *ngFor="let field of config.formFields">
+          <label class="field" [class.is-invalid]="hasFieldError(field.key)">
+            <span>{{ field.label }}</span>
+
+            <ng-container [ngSwitch]="field.type">
+              <textarea *ngSwitchCase="'textarea'" [formControlName]="field.key" [placeholder]="field.placeholder || ''"></textarea>
+
+              <select *ngSwitchCase="'select'" [formControlName]="field.key">
+                <option value="">Selecciona una opcion</option>
+                <option *ngFor="let option of getOptions(field.key)" [value]="option.value">{{ option.label }}</option>
+              </select>
+
+              <input *ngSwitchCase="'checkbox'" type="checkbox" [formControlName]="field.key" />
+
+              <input
+                *ngSwitchDefault
+                [type]="field.type"
+                [formControlName]="field.key"
+                [attr.placeholder]="field.placeholder || null"
+                [attr.step]="field.step || null"
+                [attr.min]="field.min ?? null"
+              />
+            </ng-container>
+
+            <small *ngIf="field.helpText" class="help-copy">{{ field.helpText }}</small>
+            <small *ngIf="hasIntegerError(field.key)" class="field-error">Usa solo unidades enteras, sin decimales.</small>
+          </label>
+        </ng-container>
+
+        <section *ngIf="config.barcodeLookup" class="scanner-panel">
+          <div>
+            <h2>Codigo de barras</h2>
+            <p class="page-copy">
+              Puedes buscar datos si escribes un codigo.
+            </p>
+          </div>
+          <div class="action-row">
+            <button class="ghost-button" type="button" (click)="lookupBarcode()">
+              Buscar codigo escrito
+            </button>
+            <button class="ghost-button" type="button" (click)="startScanner()" *ngIf="!scannerRunning">
+              Escanear con camara
+            </button>
+            <button class="ghost-button" type="button" (click)="stopScanner()" *ngIf="scannerRunning">
+              Detener escaner
+            </button>
+          </div>
+          <p class="page-copy">{{ scannerMessage }}</p>
+          <div class="scanner-preview" [class.is-hidden]="!scannerRunning">
+            <video #scannerVideo autoplay playsinline muted></video>
+          </div>
+        </section>
+
+        <div class="action-row">
+          <button class="primary-button" type="submit" [disabled]="submitting">
+            {{ submitting ? 'Guardando...' : 'Guardar' }}
+          </button>
+          <a class="ghost-button" [routerLink]="['/', config.key]">Cancelar</a>
+        </div>
+      </form>
+    </section>
+    </ng-template>
+  </div>
+</ng-container>
+
+<ng-template #notFound>
+  <section class="page-card error-card">
+    No se pudo abrir este formulario.
+  </section>
+</ng-template>

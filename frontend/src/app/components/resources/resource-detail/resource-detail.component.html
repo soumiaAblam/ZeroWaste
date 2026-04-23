@@ -1,0 +1,53 @@
+<ng-container *ngIf="config; else notFound">
+  <section class="section-header">
+    <div class="page-head">
+      <div>
+        <p class="page-kicker">Detalle</p>
+        <h1>{{ config.title }}</h1>
+        <p class="page-copy">Informacion guardada de este elemento.</p>
+      </div>
+      <div class="action-row">
+        <a class="ghost-button" [routerLink]="['/', config.key]">Volver</a>
+        <ng-container *ngIf="record">
+        <a class="primary-button" [routerLink]="['/', config.key, record[config.idField], 'edit']">Editar</a>
+        <button class="danger-button" type="button" (click)="deleteRecord()">Eliminar</button>
+        </ng-container>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-scroll">
+    <section *ngIf="errorMessage" class="page-card error-card">
+      {{ errorMessage }}
+    </section>
+
+    <app-loading-state
+      *ngIf="loading; else detailContent"
+      label="Cargando detalle"
+      detail="Cargando datos."
+    />
+
+    <ng-template #detailContent>
+    <section *ngIf="record; else missingRecord" class="page-card detail-card">
+      <dl>
+        <ng-container *ngFor="let field of config.detailFields">
+          <dt>{{ field.label }}</dt>
+          <dd>{{ formatValue(record[field.key]) }}</dd>
+        </ng-container>
+      </dl>
+    </section>
+    </ng-template>
+
+    <ng-template #missingRecord>
+      <section *ngIf="!errorMessage" class="page-card error-card">
+        No se encontro este elemento.
+      </section>
+    </ng-template>
+  </div>
+</ng-container>
+
+<ng-template #notFound>
+  <section class="page-card error-card">
+    No se pudo abrir este detalle.
+  </section>
+</ng-template>

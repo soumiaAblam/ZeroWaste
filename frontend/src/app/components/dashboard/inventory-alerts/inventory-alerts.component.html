@@ -1,0 +1,35 @@
+<section *ngIf="errorMessage" class="page-card error-card">
+  {{ errorMessage }}
+</section>
+
+<section class="page-card dashboard-board">
+  <div class="dashboard-board-head">
+    <p class="page-kicker">Inventario</p>
+    <h2>Productos para revisar</h2>
+    <p class="page-copy">Los mas urgentes salen primero.</p>
+  </div>
+
+  <app-loading-state
+    *ngIf="loading; else alertsContent"
+    label="Cargando dashboard"
+    detail="Cargando productos del inventario."
+    [compact]="true"
+  />
+
+  <ng-template #alertsContent>
+  <div *ngIf="filteredInventoryAlerts().length; else noAlerts" class="alert-card-grid">
+    <app-inventory-card
+      *ngFor="let alert of filteredInventoryAlerts()"
+      [item]="alert"
+      [saving]="isToggleSaving(alert)"
+      (toggleConsumed)="toggleConsumed($event)"
+    />
+  </div>
+  </ng-template>
+</section>
+
+<ng-template #noAlerts>
+  <p class="empty-copy">
+    No hay productos en alerta ahora mismo.
+  </p>
+</ng-template>

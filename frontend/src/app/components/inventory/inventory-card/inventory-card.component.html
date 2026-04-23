@@ -1,0 +1,69 @@
+<article
+  class="inventory-card"
+  [class.is-expired]="resolveTone() === 'expired'"
+  [class.is-danger]="resolveTone() === 'danger'"
+  [class.is-warning]="resolveTone() === 'warning'"
+  [class.is-consumed]="isConsumed()"
+  [class.is-compact-expired]="compactExpired"
+>
+  <div class="inventory-card-media">
+    <ng-container *ngIf="resolveImageUrl() as imageUrl; else inventoryPlaceholder">
+      <img [src]="imageUrl" [alt]="item.producto_nombre" />
+    </ng-container>
+    <ng-template #inventoryPlaceholder>
+      <div class="inventory-card-placeholder">
+        <mat-icon>shopping_basket</mat-icon>
+        <span>Sin imagen</span>
+      </div>
+    </ng-template>
+
+    <span class="inventory-card-count">{{ formatCompactQuantity() }}</span>
+  </div>
+
+  <div class="inventory-card-body">
+    <p class="inventory-card-eyebrow">{{ item.producto_categoria || 'Sin categoria' }}</p>
+    <h3>{{ item.producto_nombre }}</h3>
+    <p class="inventory-card-brand">{{ item.ubicacion || 'Sin marca' }}</p>
+    <p class="inventory-card-meta">{{ item.producto_codigo_barras || 'Sin codigo de barras' }}</p>
+
+    <p *ngIf="compactExpired; else regularStatus" class="inventory-card-expired-summary">
+      {{ formatExpiredSummary() }}
+    </p>
+
+    <ng-template #regularStatus>
+    <div class="inventory-card-status">
+      <span
+        class="status-pill"
+        [class.is-expired]="resolveTone() === 'expired'"
+        [class.is-danger]="resolveTone() === 'danger'"
+        [class.is-warning]="resolveTone() === 'warning'"
+      >
+        {{ resolveStatusLabel() }}
+      </span>
+      <span>{{ formatRemainingDays() }}</span>
+    </div>
+
+    <p class="inventory-card-date">Caduca {{ formatShortDate() }}</p>
+    </ng-template>
+
+    <button
+      *ngIf="!compactExpired"
+      class="consumed-toggle"
+      type="button"
+      [class.is-consumed]="isConsumed()"
+      [disabled]="saving"
+      (click)="toggleConsumed.emit(item)"
+    >
+      <span class="toggle-dot" aria-hidden="true"></span>
+      {{ saving ? 'Actualizando...' : isConsumed() ? 'Consumido' : 'No consumido' }}
+    </button>
+
+    <div *ngIf="showActions" class="inventory-card-actions">
+      <a class="inline-link" [routerLink]="['/inventory', item.id_inventario]">Ver</a>
+      <a class="inline-link" [routerLink]="['/inventory', item.id_inventario, 'edit']">Editar</a>
+      <button *ngIf="showDelete" class="inline-link danger-link" type="button" (click)="deleteRequested.emit(item)">
+        Eliminar
+      </button>
+    </div>
+  </div>
+</article>

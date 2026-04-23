@@ -1,0 +1,151 @@
+:host {
+  display: grid;
+  gap: 1rem;
+}
+
+.shopping-header,
+.shopping-board {
+  display: grid;
+  gap: 1rem;
+}
+
+.shopping-board {
+  box-shadow: none;
+}
+
+.shopping-board-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+
+.shopping-board-head h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.shopping-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(172px, 188px));
+  justify-content: start;
+  gap: 1rem;
+}
+
+.shopping-card {
+  display: grid;
+  gap: 0.9rem;
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: var(--radius-lg);
+  border: 0;
+  background: var(--color-surface);
+  box-shadow: none;
+}
+
+.shopping-card-media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: #edf2f7;
+  aspect-ratio: 1 / 1;
+}
+
+.shopping-card-media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.shopping-card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0.45rem;
+  color: var(--color-primary-dark);
+  text-align: center;
+  background: #eef2f5;
+}
+
+.shopping-card-placeholder mat-icon {
+  width: 40px;
+  height: 40px;
+  font-size: 40px;
+}
+
+.shopping-card-placeholder span {
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.shopping-card-count {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  min-width: 2.1rem;
+  padding: 0.35rem 0.45rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--color-text);
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.shopping-card-body {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.shopping-card-eyebrow {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.shopping-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.shopping-card-meta {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.92rem;
+}
+
+.reason-pill {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  min-height: 30px;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.reason-pill.is-consumed {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+}
+
+.reason-pill.is-expired {
+  background: #d8dde3;
+  color: #4b5563;
+}
+
+@media (max-width: 720px) {
+  .shopping-board-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

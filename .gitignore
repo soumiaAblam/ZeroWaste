@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Entornos locales
+.venv/
+venv/
+
+# Variables y datos locales
+.env
+.env.*
+!.env.example
+*.log
+db.sqlite3
+media/
+staticfiles/
+sent_emails/
+database_exports/
+*.dump
+*.dmp
+*.bak.sql
+*.sql.zip
+
+# Cobertura y pruebas
+.coverage
+htmlcov/
+
+# Frontend generado
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Temporales locales
+.codex-tmp/
